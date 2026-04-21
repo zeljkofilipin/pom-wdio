@@ -1,5 +1,6 @@
 {
   "name": "pom-wdio",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "runArgs": ["--platform", "linux/amd64"],
   "postCreateCommand": "sudo apt-get update && sudo apt-get install -y chromium"
 }
