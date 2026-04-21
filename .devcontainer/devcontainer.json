@@ -12,14 +12,6 @@
     // Automatically "opens the gate" for the VNC web interface when the container starts
     "forwardPorts": [6080],
 
-    // Customizes the "Ports" tab in VS Code for better readability
-    "portsAttributes": {
-        "6080": {
-            "label": "Browser Desktop (noVNC)",
-            "onAutoForward": "notify"
-        }
-    },
-
     // Running as 'node' user is more stable for desktop environments than 'root'
     "remoteUser": "node",
 
