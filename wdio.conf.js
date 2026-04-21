@@ -64,9 +64,6 @@ export const config = {
                 // "Out of Memory" crashes during test execution.
                 '--disable-dev-shm-usage',
 
-                // This matches the DISPLAY env var in .devcontainer/devcontainer.json
-                '--display=:1'
-
                 // Note: We are NOT using '--headless' because we want to observe
                 // the browser execution through the Desktop Lite (noVNC) interface.
             ]
