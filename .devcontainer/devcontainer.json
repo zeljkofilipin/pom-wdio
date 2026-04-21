@@ -1,6 +1,34 @@
 {
-  "name": "pom-wdio",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
-  "runArgs": ["--platform", "linux/amd64"],
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y chromium"
+    "name": "pom-wdio",
+    // Use the standard Node.js 20 image from Microsoft
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+
+    "features": {
+        // Installs a lightweight desktop (Fluxbox) and noVNC
+        // This allows us to see the browser running inside the container via a web tab
+        "ghcr.io/devcontainers/features/desktop-lite:1": {}
+    },
+
+    // Automatically "opens the gate" for the VNC web interface when the container starts
+    "forwardPorts": [6080],
+
+    // Customizes the "Ports" tab in VS Code for better readability
+    "portsAttributes": {
+        "6080": {
+            "label": "Browser Desktop (noVNC)",
+            "onAutoForward": "notify"
+        }
+    },
+
+    // Running as 'node' user is more stable for desktop environments than 'root'
+    "remoteUser": "node",
+
+    "containerEnv": {
+        // Tells Chrome/Chromium to draw its window on the virtual display (:1)
+        "DISPLAY": ":1"
+    },
+
+    // Installs the native ARM64 browser and driver directly into the Linux OS
+    // This avoids the 'Rosetta' Intel-emulation errors on Mac M1/M2/M3 chips
+    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y chromium chromium-driver"
 }

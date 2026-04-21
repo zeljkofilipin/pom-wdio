@@ -52,7 +52,28 @@ export const config = {
     capabilities: [{
         browserName: 'chrome',
         'goog:chromeOptions': {
-            args: ['--headless', '--no-sandbox']
+            // Point WDIO to the native ARM64 Chromium we installed
+            binary: '/usr/bin/chromium',
+            args: [
+                // Required for running Chrome in a Docker container as the 'root' user.
+                // It bypasses the OS-level security sandbox which otherwise causes crashes in Linux.
+                '--no-sandbox',
+
+                // Forces Chrome to use the /tmp directory instead of /dev/shm for shared memory.
+                // Docker containers often have a tiny 64MB limit on /dev/shm, which leads to
+                // "Out of Memory" crashes during test execution.
+                '--disable-dev-shm-usage',
+
+                // This matches the DISPLAY env var in .devcontainer/devcontainer.json
+                '--display=:1'
+
+                // Note: We are NOT using '--headless' because we want to observe
+                // the browser execution through the Desktop Lite (noVNC) interface.
+            ]
+        },
+        // The native driver
+        'wdio:chromedriverOptions': {
+            binary: '/usr/bin/chromedriver'
         }
     }],
 
